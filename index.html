@@ -132,16 +132,17 @@
     }
 
     /* ✅ 팝업 포함 모든 버튼 기본(absolute 금지) */
-    button{
-      border:0;
-      cursor:pointer;
-      border-radius: 999px;
-      padding: 14px 22px;
-      font-size: 16px;
-      font-weight: 900;
-      letter-spacing: -0.02em;
-      user-select:none;
-    }
+button{
+  border:0;
+  cursor:pointer;
+  border-radius: 999px;
+  padding: 18px 30px;   /* ← 더 큼 */
+  font-size: 18px;      /* ← 더 큼 */
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  user-select:none;
+}
+
     /* ✅ YES/NO만 absolute */
     #arena button{
       position:absolute;
@@ -504,6 +505,18 @@
       }
     }
     applyYesScale();
+
+// ✅ 모바일/데스크톱 공통: 시간이 지날수록 YES 자동으로 커지기
+const AUTO_GROW_INTERVAL_MS = 700;   // 속도(작을수록 빨리 큼)
+const AUTO_GROW_STEP = 0.04;         // 한 번에 커지는 정도
+const AUTO_GROW_MAX = 2.6;           // 최대 크기
+
+setInterval(() => {
+  if (overlay.classList.contains("show")) return; // 팝업 열려있을 땐 멈춤(선택)
+  yesScale = Math.min(AUTO_GROW_MAX, yesScale + AUTO_GROW_STEP);
+  applyYesScale(false);
+}, AUTO_GROW_INTERVAL_MS);
+
 
     yesBtn.addEventListener("mouseenter", () => {
       yesScale = Math.min(2.2, yesScale + 0.08);
