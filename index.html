@@ -3,9 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <!-- 검색엔진 노출 최소화 -->
   <meta name="robots" content="noindex, nofollow">
-
   <title>Valentine Invite</title>
+
   <style>
     :root{
       --bgA:#fff1f6;
@@ -115,25 +116,23 @@
       overflow:hidden;
     }
 
-/* ✅ 공통 버튼(팝업 포함) 기본 스타일: absolute 금지 */
-button{
-  border:0;
-  cursor:pointer;
-  border-radius: 999px;
-  padding: 14px 22px;
-  font-size: 16px;
-  font-weight: 900;
-  letter-spacing: -0.02em;
-  user-select:none;
-}
-
-/* ✅ YES/NO 버튼만 absolute */
-#arena button{
-  position:absolute;
-  will-change: transform, left, top;
-  transition: transform 140ms ease, filter 140ms ease, box-shadow 140ms ease;
-}
-
+    /* ✅ 팝업 포함 모든 버튼 기본(absolute 금지) */
+    button{
+      border:0;
+      cursor:pointer;
+      border-radius: 999px;
+      padding: 14px 22px;
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      user-select:none;
+    }
+    /* ✅ YES/NO만 absolute */
+    #arena button{
+      position:absolute;
+      will-change: transform, left, top;
+      transition: transform 140ms ease, filter 140ms ease, box-shadow 140ms ease;
+    }
 
     #yesBtn{
       left:50%;
@@ -143,12 +142,8 @@ button{
       color: #fff;
       box-shadow: 0 18px 40px rgba(255,59,122,0.35);
     }
-    #yesBtn:hover{
-      filter: brightness(1.03);
-    }
-    .yes-bounce{
-      animation: bounce 420ms ease;
-    }
+    #yesBtn:hover{ filter: brightness(1.03); }
+    .yes-bounce{ animation: bounce 420ms ease; }
     @keyframes bounce{
       0%{ transform: translate(-115%,-50%) scale(var(--yesScale)); }
       50%{ transform: translate(-115%,-50%) scale(calc(var(--yesScale) + 0.08)); }
@@ -195,7 +190,7 @@ button{
     .overlay.show{ display:flex; }
 
     .modal{
-      width:min(780px, 94vw);
+      width:min(820px, 94vw);
       border-radius: 28px;
       background: rgba(255,255,255,0.92);
       border: 1px solid rgba(255,255,255,0.35);
@@ -203,20 +198,22 @@ button{
       overflow:hidden;
       position:relative;
     }
- .modalTop{
-  padding: 18px 18px 0;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-}
-
-.xbtn{
-  padding: 10px 12px;
-  border-radius: 999px;
-  font-weight: 900;
-  /* (전역 button 스타일을 타니까 여기서 padding만 조정해도 됨) */
-}
+    .modalTop{
+      padding: 18px 18px 0;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+    }
+    .xbtn{
+      border: 1px solid rgba(17,24,39,0.10);
+      background: rgba(255,255,255,0.75);
+      color: var(--ink);
+      padding: 10px 12px;
+      border-radius: 999px;
+      font-weight:900;
+      cursor:pointer;
+    }
 
     .modalBody{
       padding: 14px 22px 22px;
@@ -227,20 +224,36 @@ button{
     @media (max-width: 740px){
       .modalBody{ grid-template-columns: 1fr; }
     }
+
+    /* ✅ 이미지 자리: 사진이 있으면 사진, 없으면 SVG */
     .hero{
       border-radius: 22px;
       background: radial-gradient(600px 280px at 30% 20%, rgba(255,59,122,0.20), rgba(255,255,255,0));
       border: 1px solid rgba(255,59,122,0.20);
-      padding: 18px;
+      overflow:hidden;
+      min-height: 260px;
+      position:relative;
+    }
+    .hero img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      display:block;
+      transform: scale(1.02);
+    }
+    .hero .fallback{
+      height:100%;
+      min-height: 260px;
       display:grid;
       place-items:center;
-      min-height: 240px;
+      padding: 18px;
     }
-    .hero svg{
-      width:min(320px, 80%);
+    .hero .fallback svg{
+      width:min(340px, 82%);
       height:auto;
       filter: drop-shadow(0 16px 24px rgba(255,59,122,0.20));
     }
+
     .msg h2{
       margin: 6px 0 10px;
       font-size: clamp(20px, 2.5vw, 30px);
@@ -260,9 +273,13 @@ button{
       margin-top: 10px;
     }
     .cta{
-      border: 0;
-      border-radius: 999px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
       padding: 12px 14px;
+      line-height: 1;
+      border-radius: 999px;
       font-weight: 900;
       cursor: pointer;
       letter-spacing:-0.02em;
@@ -285,6 +302,7 @@ button{
     }
   </style>
 </head>
+
 <body>
   <canvas id="hearts"></canvas>
 
@@ -292,7 +310,7 @@ button{
     <div class="card">
       <div class="badge">💌 Valentine Invite</div>
       <h1>발렌타인데이 데이트를 수락하시겠습니까?</h1>
-      <p class="sub">순호에게 보내는 하은이의 초대장</p>
+      <p class="sub">순호에게 보내는 하은이의 초대장.</p>
 
       <div class="meta">
         <div class="pill">📅 <span>일자</span>&nbsp;2/14</div>
@@ -300,8 +318,12 @@ button{
       </div>
 
       <div class="actions" id="arena">
-        <button id="yesBtn" type="button" aria-label="yes">YES 💘</button>
-        <button id="noBtn" type="button" aria-label="no">NO 🙅‍♂️</button>
+        <button id="yesBtn" type="button">YES 💘</button>
+        <button id="noBtn" type="button">NO 🙅‍♂️</button>
+      </div>
+
+      <div class="foot">
+        <div>made with Snow White♥</div>
       </div>
     </div>
   </div>
@@ -315,56 +337,48 @@ button{
       </div>
 
       <div class="modalBody">
-        <div class="hero" aria-hidden="true">
-          <!-- Inline SVG image (no external files needed) -->
-          <svg viewBox="0 0 420 320" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
-                <stop offset="0" stop-color="#ff3b7a"/>
-                <stop offset="1" stop-color="#ff7aa6"/>
-              </linearGradient>
-              <filter id="blur" x="-20%" y="-20%" width="140%" height="140%">
-                <feGaussianBlur stdDeviation="10"/>
-              </filter>
-            </defs>
-            <circle cx="110" cy="80" r="38" fill="#ff3b7a" opacity="0.22" filter="url(#blur)"/>
-            <circle cx="310" cy="110" r="46" fill="#ff7aa6" opacity="0.20" filter="url(#blur)"/>
-            <circle cx="240" cy="60" r="22" fill="#ff3b7a" opacity="0.16" filter="url(#blur)"/>
-
-            <path d="M210 268
-                     C 110 205, 70 150, 90 105
-                     C 110 60, 165 60, 190 95
-                     C 210 125, 210 125, 230 95
-                     C 255 60, 310 60, 330 105
-                     C 350 150, 310 205, 210 268 Z"
-                  fill="url(#g1)"/>
-            <path d="M210 250
-                     C 128 200, 96 156, 112 116
-                     C 126 82, 166 82, 184 108
-                     C 199 129, 199 129, 210 145
-                     C 221 129, 221 129, 236 108
-                     C 254 82, 294 82, 308 116
-                     C 324 156, 292 200, 210 250 Z"
-                  fill="#ffffff" opacity="0.18"/>
-            <text x="210" y="160" text-anchor="middle"
-                  font-family="ui-sans-serif, system-ui"
-                  font-size="22" font-weight="900" fill="#ffffff" opacity="0.95">
-              SEE YOU 💖
-            </text>
-          </svg>
+        <!-- ✅ 여기가 이미지 자리 -->
+        <div class="hero" id="heroBox">
+          <!-- 이미지가 있으면 표시될 img -->
+          <img id="heroImg" src="images/hero.jpg" alt="valentine image" style="display:none;" />
+          <!-- 이미지 없을 때 대체 SVG -->
+          <div class="fallback" id="heroFallback">
+            <svg viewBox="0 0 420 320" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+                  <stop offset="0" stop-color="#ff3b7a"/>
+                  <stop offset="1" stop-color="#ff7aa6"/>
+                </linearGradient>
+                <filter id="blur" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="10"/>
+                </filter>
+              </defs>
+              <circle cx="110" cy="80" r="38" fill="#ff3b7a" opacity="0.22" filter="url(#blur)"/>
+              <circle cx="310" cy="110" r="46" fill="#ff7aa6" opacity="0.20" filter="url(#blur)"/>
+              <circle cx="240" cy="60" r="22" fill="#ff3b7a" opacity="0.16" filter="url(#blur)"/>
+              <path d="M210 268 C 110 205, 70 150, 90 105 C 110 60, 165 60, 190 95
+                       C 210 125, 210 125, 230 95 C 255 60, 310 60, 330 105
+                       C 350 150, 310 205, 210 268 Z" fill="url(#g1)"/>
+              <text x="210" y="160" text-anchor="middle"
+                    font-family="ui-sans-serif, system-ui"
+                    font-size="22" font-weight="900" fill="#ffffff" opacity="0.95">
+                SEE YOU 💖
+              </text>
+            </svg>
+          </div>
         </div>
 
         <div class="msg">
           <h2>수락할 줄 알았어 😌<br/>발렌타인데이에 만나 💖</h2>
           <p>
             <b>2/14</b> · <b>해방촌</b><br/>
-            시간은 우리끼리 조율하자. (하지만 거절은 안 됨)
+            사실 2/13 저녁부터 볼거지롱💖 거절은 거절한다.
           </p>
 
           <div class="ctaRow">
             <button class="cta primary" id="downloadIcs" type="button">📅 캘린더에 추가</button>
             <button class="cta ghost" id="copyText" type="button">📩 공유 문구 복사</button>
-            <button class="cta ghost" id="close2" type="button">고백(닫기) 🙂</button>
+            <button class="cta ghost" id="close2" type="button">닫기 🙂</button>
           </div>
           <div class="miniToast" id="miniToast"></div>
         </div>
@@ -390,75 +404,48 @@ button{
 
     const hearts = [];
     const HEART_COUNT = 26;
-
-    function rand(min,max){ return Math.random()*(max-min)+min; }
+    const rand = (min,max)=> Math.random()*(max-min)+min;
 
     function makeHeart(){
       const size = rand(10, 22);
-      return {
-        x: rand(0, window.innerWidth),
-        y: rand(window.innerHeight, window.innerHeight + 220),
-        size,
-        vy: rand(0.4, 1.2),
-        vx: rand(-0.25, 0.25),
-        rot: rand(-0.6, 0.6),
-        vr: rand(-0.01, 0.01),
+      return { x: rand(0, innerWidth), y: rand(innerHeight, innerHeight+220),
+        size, vy: rand(0.4, 1.2), vx: rand(-0.25, 0.25),
+        rot: rand(-0.6, 0.6), vr: rand(-0.01, 0.01),
         alpha: rand(0.10, 0.26)
       };
     }
-
     for(let i=0;i<HEART_COUNT;i++) hearts.push(makeHeart());
 
     function drawHeart(x,y,s,rot,alpha){
       ctx.save();
-      ctx.translate(x,y);
-      ctx.rotate(rot);
-      ctx.globalAlpha = alpha;
-
-      // gradient-ish heart using fillStyle variations
+      ctx.translate(x,y); ctx.rotate(rot); ctx.globalAlpha = alpha;
       ctx.fillStyle = "rgba(255,59,122,1)";
       ctx.beginPath();
-      const topCurveHeight = s * 0.3;
-      ctx.moveTo(0, topCurveHeight);
-      // left half
-      ctx.bezierCurveTo(0, 0, -s/2, 0, -s/2, topCurveHeight);
-      ctx.bezierCurveTo(-s/2, s/2, 0, s*0.72, 0, s);
-      // right half
-      ctx.bezierCurveTo(0, s*0.72, s/2, s/2, s/2, topCurveHeight);
-      ctx.bezierCurveTo(s/2, 0, 0, 0, 0, topCurveHeight);
-      ctx.closePath();
-      ctx.fill();
-
-      // highlight
-      ctx.globalAlpha = alpha * 0.55;
+      const t = s*0.3;
+      ctx.moveTo(0,t);
+      ctx.bezierCurveTo(0,0,-s/2,0,-s/2,t);
+      ctx.bezierCurveTo(-s/2,s/2,0,s*0.72,0,s);
+      ctx.bezierCurveTo(0,s*0.72,s/2,s/2,s/2,t);
+      ctx.bezierCurveTo(s/2,0,0,0,0,t);
+      ctx.closePath(); ctx.fill();
+      ctx.globalAlpha = alpha*0.55;
       ctx.fillStyle = "rgba(255,255,255,1)";
       ctx.beginPath();
       ctx.ellipse(-s*0.12, s*0.25, s*0.12, s*0.18, rot, 0, Math.PI*2);
       ctx.fill();
-
       ctx.restore();
     }
-
-    function tick(){
-      ctx.clearRect(0,0,window.innerWidth, window.innerHeight);
+    (function tick(){
+      ctx.clearRect(0,0,innerWidth,innerHeight);
       for(const h of hearts){
-        h.y -= h.vy;
-        h.x += h.vx;
-        h.rot += h.vr;
-
-        // wrap
-        if(h.y < -60){
-          h.y = window.innerHeight + rand(40, 220);
-          h.x = rand(0, window.innerWidth);
-        }
-        if(h.x < -40) h.x = window.innerWidth + 40;
-        if(h.x > window.innerWidth + 40) h.x = -40;
-
-        drawHeart(h.x, h.y, h.size, h.rot, h.alpha);
+        h.y -= h.vy; h.x += h.vx; h.rot += h.vr;
+        if(h.y < -60){ h.y = innerHeight + rand(40,220); h.x = rand(0,innerWidth); }
+        if(h.x < -40) h.x = innerWidth + 40;
+        if(h.x > innerWidth + 40) h.x = -40;
+        drawHeart(h.x,h.y,h.size,h.rot,h.alpha);
       }
       requestAnimationFrame(tick);
-    }
-    tick();
+    })();
 
     /** ---------- Buttons behavior ---------- **/
     const arena = document.getElementById("arena");
@@ -470,6 +457,26 @@ button{
     const close2 = document.getElementById("close2");
     const miniToast = document.getElementById("miniToast");
 
+    // ✅ 이미지 로드: 있으면 보여주고, 없으면 SVG 유지
+    const heroImg = document.getElementById("heroImg");
+    const heroFallback = document.getElementById("heroFallback");
+
+    // 업로드한 이미지 파일명만 여기서 바꾸면 됨
+    const HERO_SRC = "images/hero.jpg";
+
+    function initHeroImage(){
+      heroImg.src = HERO_SRC + "?v=" + Date.now(); // 캐시 방지
+      heroImg.onload = () => {
+        heroImg.style.display = "block";
+        heroFallback.style.display = "none";
+      };
+      heroImg.onerror = () => {
+        heroImg.style.display = "none";
+        heroFallback.style.display = "grid";
+      };
+    }
+    initHeroImage();
+
     // YES grows
     let yesScale = 1;
     function applyYesScale(bounce=false){
@@ -477,7 +484,6 @@ button{
       yesBtn.style.transform = `translate(-115%, -50%) scale(${yesScale})`;
       if(bounce){
         yesBtn.classList.remove("yes-bounce");
-        // reflow to restart animation
         void yesBtn.offsetWidth;
         yesBtn.classList.add("yes-bounce");
       }
@@ -488,7 +494,6 @@ button{
       yesScale = Math.min(2.2, yesScale + 0.08);
       applyYesScale(true);
     });
-
     yesBtn.addEventListener("click", () => {
       yesScale = Math.min(3.0, yesScale + 0.22);
       applyYesScale(true);
@@ -510,10 +515,10 @@ button{
       const b = noBtn.getBoundingClientRect();
       const maxX = a.width - b.width - padding * 2;
       const maxY = a.height - b.height - padding * 2;
-
-      const x = padding + Math.random() * Math.max(0, maxX);
-      const y = padding + Math.random() * Math.max(0, maxY);
-      return { x, y };
+      return {
+        x: padding + Math.random() * Math.max(0, maxX),
+        y: padding + Math.random() * Math.max(0, maxY)
+      };
     }
 
     function dist(x1,y1,x2,y2){
@@ -521,10 +526,8 @@ button{
       return Math.hypot(dx,dy);
     }
 
-    // init NO location inside arena
     (function initNo(){
       const a = arena.getBoundingClientRect();
-      // 대충 오른쪽 위쪽 느낌
       placeNo(Math.max(12, a.width*0.62), Math.max(12, a.height*0.38));
     })();
 
@@ -538,21 +541,14 @@ button{
       const cy = (b.top - a.top) + b.height/2;
 
       if(dist(mx,my,cx,cy) < fleeRadius){
-        // 여러 후보 중 가장 멀어지는 위치 선택 (더 못 누르게)
         let best = null;
-        for(let i=0;i<7;i++){
+        for(let i = 0; i < 7; i++){
           const p = randomPositionForNo();
           const d = dist(mx,my, p.x + b.width/2, p.y + b.height/2);
           if(!best || d > best.d) best = { ...p, d };
         }
         placeNo(best.x, best.y);
       }
-    });
-
-    // 혹시 클릭되면 토스트(거의 안 됨)
-    noBtn.addEventListener("click", () => {
-      miniToast.textContent = "NO는 선택지가 아니었어 😇";
-      openAccepted();
     });
 
     /** ---------- Accepted overlay ---------- **/
@@ -587,24 +583,20 @@ button{
         await navigator.clipboard.writeText(shareText);
         miniToast.textContent = "공유 문구 복사 완료! (카톡에 붙여넣기 하면 돼)";
       }catch{
-        // fallback
         const ta = document.createElement("textarea");
         ta.value = shareText;
         document.body.appendChild(ta);
         ta.select();
         document.execCommand("copy");
         ta.remove();
-        miniToast.textContent = "공유 문구 복사 완료! (fallback)";
+        miniToast.textContent = "공유 문구 복사 완료!";
       }
     });
 
-    // Simple ICS download (all-day event)
-    // NOTE: time zone details can be finicky; this is a basic working file.
     downloadIcsBtn.addEventListener("click", () => {
-      // Set an example year to the current year; adjust if needed.
       const year = new Date().getFullYear();
       const dtStart = `${year}0214`;
-      const dtEnd   = `${year}0215`; // all-day end is next day in iCal
+      const dtEnd   = `${year}0215`;
 
       const ics =
 `BEGIN:VCALENDAR
@@ -637,7 +629,6 @@ END:VCALENDAR`;
 
     function pad2(n){ return String(n).padStart(2,"0"); }
     function formatDTStamp(d){
-      // UTC format: YYYYMMDDTHHMMSSZ
       const y = d.getUTCFullYear();
       const mo = pad2(d.getUTCMonth()+1);
       const da = pad2(d.getUTCDate());
